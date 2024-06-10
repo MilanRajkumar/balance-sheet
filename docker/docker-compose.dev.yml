@@ -1,0 +1,20 @@
+services:
+  frontend:
+    image: frontend_dev
+    container_name: frontend_container_dev
+    depends_on:
+      - "backend"
+    ports:
+      - "3001:3001"
+  backend:
+    image: backend
+    container_name: backend_container
+    depends_on:
+      - "db"
+    ports:
+      - "4000:4000"
+  db:
+    image: jaypeng2015/show-me-the-money
+    container_name: demyst_db
+    ports:
+      - "3000:3000"
