@@ -10,7 +10,7 @@ Backend creates an api to fetch company balance sheet by calling another contain
 
 React app has been created using vite js and add minimal configuration require for development with some basic unit testing. React testing library and vitest are used for testing with msw module to mock api call.
 
-GoLang has a basic setup test for the api call.
+GoLang has a basic tet setup which mocks api call.
 
 #### How to start in local machine?
 
@@ -37,4 +37,4 @@ Backend api is running in port 4000
 
 [!NOTE]
 
-> For a real application it will be better to use open api spec both in backend and frontend to intercept the resquest and response types properly.
+> For a real application it will be better to use open api spec both in backend and frontend to intercept the response and response types properly.
