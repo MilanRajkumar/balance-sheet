@@ -6,6 +6,8 @@ services:
       - "backend"
     ports:
       - "3001:3001"
+    environment:
+      - VITE_BASE_URL=http://backend_container:4000
   frontend_test:
     image: frontend_dev
     container_name: frontend_test

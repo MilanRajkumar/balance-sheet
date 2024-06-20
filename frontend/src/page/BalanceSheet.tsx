@@ -1,6 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
+import { getBalanceSheetApi } from '../api/api';
+import { RoutesReportType } from '../api/generated';
 import {
   Table,
   TableBody,
@@ -11,9 +13,8 @@ import {
 } from '../components/Table';
 import { TableSkeleton } from '../components/TableSkeleton';
 import { cn } from '../utills/tailwindMerge';
-import { ReportType, RowDataType } from './types';
+import { RowDataType } from './types';
 
-const apiUrl = `http://localhost:4000/balance-sheet`;
 function TableContent({
   title,
   rows,
@@ -84,21 +85,21 @@ const useGetBalanceSheet = () => {
   return useSuspenseQuery({
     queryKey: ['balance-sheet'],
     queryFn: async () => {
-      const res = await fetch(apiUrl);
-      const data = (await res.json()) as ReportType;
-      if (!data?.Reports || !data?.Reports.length) {
-        return {} as ReportType['Reports'][0];
+      const res = await getBalanceSheetApi().getBalanceSheet();
+      if (!res) {
+        return {} as RoutesReportType;
       }
-      return data.Reports[0];
+
+      const { Reports } = res;
+      if (!Reports || !Reports.length) {
+        return {} as RoutesReportType;
+      }
+      return Reports[0];
     },
   });
 };
 function RenderSheet() {
   const { error, data } = useGetBalanceSheet();
-  const [title, company, date] = data.ReportTitles;
-  const header = data.Rows[0];
-  const body = data.Rows.slice(1) as RowDataType[];
-
   if (error) {
     return (
       <div className="text-orange-600 text-2xl grid items-center justify-center w-full">
@@ -106,6 +107,10 @@ function RenderSheet() {
       </div>
     );
   }
+
+  const [title, company, date] = data.ReportTitles ?? [];
+  const header = data.Rows[0];
+  const body = data.Rows.slice(1) as RowDataType[];
 
   return (
     <div>
