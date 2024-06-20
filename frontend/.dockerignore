@@ -4,3 +4,5 @@ Dockerfile.dev
 Dockerfile.prod
 .gitignore
 .vscode
+.dockerignore
+.git

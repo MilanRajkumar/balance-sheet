@@ -1,4 +1,4 @@
-GET  http://localhost:4000/balance-sheet?periods=3
+GET  http://localhost:4000/reports/balance-sheet?periods=3
 
 
 GET http://localhost:3000/api.xro/2.0/Reports/BalanceSheet?periods=5&timeframe=YEAR

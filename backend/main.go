@@ -1,6 +1,7 @@
 package main
 
 import (
+	doc "api-server/api-docs"
 	"api-server/routes"
 	"log"
 	"net/http"
@@ -26,10 +27,21 @@ func main() {
 	r := mux.NewRouter()
 	r.Use(accessControlMiddleware)
 
+	openapi := doc.InitialilizeOpenAPI()
+
+	openapi.AddOperation("balance-sheet", "GET", "/balance-sheet", "Get balance sheet", "Get balance sheet", 200, []string{doc.BalanceSheet}, nil, new(routes.ReportsType))
+	r.Path("/openapi.json").Methods("GET").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		apiDocs, err := openapi.JSON()
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		w.Write(apiDocs)
+	})
+
 	// create this client so that we can mock Client using HTTPMockClient
-	// otherwise out test will always call external api.
+	// otherwise test will always call external api.
 	// Calling external api is not an issue if our test environment is set up
-	// in such a way that we have different test setup
+	// in such a way that we have different test environment setup with database and with other needed.
 	client := http.Client{}
 	routes.GetBalanceSheet(&client).AddRoute(r)
 

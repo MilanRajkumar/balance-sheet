@@ -33,7 +33,7 @@ func Test_GetBalanceSheet(t *testing.T) {
 			name: "must return correct result",
 			args: func(*testing.T) args {
 
-				req := httptest.NewRequest("GET", "/balance-sheet", nil)
+				req := httptest.NewRequest("GET", "/reports/balance-sheet", nil)
 
 				q := req.URL.Query()
 				q.Add("periods", "3")

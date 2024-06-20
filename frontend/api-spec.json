@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Milan API",
+    "description": "Milan openapi description",
+    "contact": { "name": "Milan", "email": "rkmilansingh@gmail.com" },
+    "version": "v1"
+  },
+  "paths": {
+    "/balance-sheet": {
+      "get": {
+        "tags": ["BalanceSheet"],
+        "summary": "Get balance sheet",
+        "description": "Get balance sheet",
+        "operationId": "balance-sheet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RoutesReportsType" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RoutesCells": {
+        "required": ["Value"],
+        "type": "object",
+        "properties": { "Value": { "type": "string" } }
+      },
+      "RoutesReportType": {
+        "required": ["ReportTitles", "Rows"],
+        "type": "object",
+        "properties": {
+          "ReportTitles": { "type": "array", "items": { "type": "string" } },
+          "Rows": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RoutesRowDataType" }
+          }
+        }
+      },
+      "RoutesReportsType": {
+        "required": ["Reports"],
+        "type": "object",
+        "properties": {
+          "Reports": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RoutesReportType" }
+          }
+        }
+      },
+      "RoutesRowDataType": {
+        "required": ["RowType", "Title"],
+        "type": "object",
+        "properties": {
+          "Cells": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RoutesCells" }
+          },
+          "RowType": { "type": "string" },
+          "Rows": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RoutesRowDataType" }
+          },
+          "Title": { "type": "string" }
+        }
+      }
+    }
+  }
+}
