@@ -1,0 +1,24 @@
+name: Docker Compose Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test with Docker Compose
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Docker Compose Build and Test Up
+        run: ./bin/deploy.sh test up
+
+      - name: Docker Compose Build and Test Down
+        run: ./bin/deploy.sh test down
