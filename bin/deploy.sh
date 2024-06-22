@@ -11,8 +11,11 @@ if [[ $1 = "prod"  || $1  = "dev"  || $1 = "test" ]]  &&  [[ $2 = "down"  || $2 
    cmd+=" -d"
   fi
 
-  docker build -t frontend_$1 -f ./frontend/Dockerfile.$1 ./frontend
-  docker build -t backend -f ./backend/Dockerfile ./backend
+  if [[ $2 = "up" ]]; then
+   docker build -t frontend_$1 -f ./frontend/Dockerfile.$1 ./frontend
+   docker build -t backend -f ./backend/Dockerfile ./backend
+  fi
+  
   echo "Running $cmd"
   $cmd
 else
